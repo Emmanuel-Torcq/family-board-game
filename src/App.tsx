@@ -170,7 +170,7 @@ function App() {
 
   return (
     <div className="app">
-      <h1 className="game-title">Sans hésiter</h1>
+      
       <div className="board-container">
         <svg
           viewBox="0 0 1000 650"
