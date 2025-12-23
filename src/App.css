@@ -4,7 +4,7 @@
   margin: 0;
   padding: 0;
   overflow: hidden;
-  background: linear-gradient(135deg, #1e3c72 0%, #2a5298 50%, #7e22ce 100%);
+  background: #e8e8e8;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -79,7 +79,7 @@
 }
 
 .case-number {
-  font-size: 18px;
+  font-size: 6px;
   font-weight: bold;
   fill: #ffffff;
   text-anchor: middle;
@@ -110,7 +110,7 @@
 .center-number {
   font-size: 48px;
   font-weight: bold;
-  fill: #f39c12;
+  fill: #0b0d81;
   text-anchor: middle;
   dominant-baseline: middle;
   font-family: 'Arial Black', sans-serif;

@@ -16,8 +16,8 @@ function App() {
   // Importer toutes les images numérotées
   const importImages = () => {
     const images: { [key: number]: string } = {}
-    // Images de 1 à 27 (tous avec "Image" majuscule)
-    for (let i = 1; i <= 27; i++) {
+    // Images de 1 à 43 (tous avec "Image" majuscule)
+    for (let i = 1; i <= 43; i++) {
       try {
         const imageName = `Image ${i}.png`
         images[i] = new URL(`./assets/${imageName}`, import.meta.url).href
@@ -30,8 +30,9 @@ function App() {
 
   const images = importImages()
   
-  // Importer l'image de transition
+  // Importer les images de transition
   const transitionA = new URL('./assets/Transition A.png', import.meta.url).href
+  const transitionB = new URL('./assets/Transition B.png', import.meta.url).href
 
   // Couleurs variées pour les cases
   const colors = [
@@ -43,7 +44,7 @@ function App() {
   // Créer trois lignes courbes
   const generateSpiralPath = (): CaseData[] => {
     const cases: CaseData[] = []
-    const baseSize = 50
+    const baseSize = 60
     
     // Ligne 1: Cases 1-11 (de gauche à droite, ligne courbe en haut)
     for (let i = 0; i < 11; i++) {
@@ -58,7 +59,7 @@ function App() {
       ) * (180 / Math.PI)
       
       const color = colors[i % colors.length]
-      const imageNumber = (i % 27) + 1
+      const imageNumber = i + 1
       const imageUrl = images[imageNumber]
       
       cases.push({ 
@@ -72,21 +73,21 @@ function App() {
       })
     }
     
-    // Ligne 2: Cases 12-24 (de droite à gauche, ligne courbe au milieu)
-    for (let i = 0; i < 13; i++) {
+    // Ligne 2: Cases 12-21 (de droite à gauche, ligne arrondie au milieu)
+    for (let i = 0; i < 10; i++) {
       const caseIndex = 11 + i
-      const progress = i / 12 // 0 à 1
+      const progress = i / 9 // 0 à 1
       const x = 900 - progress * 800 // De x=900 à x=100 (droite à gauche)
-      const curveHeight = Math.sin(progress * Math.PI) * 50 // Courbe vers le bas
-      const y = 170 + curveHeight
+      const curveHeight = Math.sin(progress * Math.PI) * 50 // Courbe vers le haut
+      const y = 220 - curveHeight
       
       const rotation = Math.atan2(
         (Math.sin((progress + 0.01) * Math.PI) * 60 - curveHeight),
-        -80
+        -88.89
       ) * (180 / Math.PI)
       
       const color = colors[caseIndex % colors.length]
-      const imageNumber = (caseIndex % 27) + 1
+      const imageNumber = caseIndex
       const imageUrl = images[imageNumber]
       
       cases.push({ 
@@ -100,21 +101,21 @@ function App() {
       })
     }
     
-    // Ligne 3: Cases 25-39 (de gauche à droite, ligne courbe en bas)
-    for (let i = 0; i < 15; i++) {
-      const caseIndex = 24 + i
-      const progress = i / 14 // 0 à 1
+    // Ligne 3: Cases 22-35 (de gauche à droite, ligne arrondie)
+    for (let i = 0; i < 14; i++) {
+      const caseIndex = 21 + i
+      const progress = i / 13 // 0 à 1
       const x = 100 + progress * 800 // De x=100 à x=900
       const curveHeight = Math.sin(progress * Math.PI) * 50 // Courbe vers le haut
       const y = 340 - curveHeight
       
       const rotation = Math.atan2(
         (Math.sin((progress + 0.01) * Math.PI) * 60 - curveHeight),
-        80
+        61.54
       ) * (180 / Math.PI)
       
       const color = colors[caseIndex % colors.length]
-      const imageNumber = (caseIndex % 27) + 1
+      const imageNumber = caseIndex
       const imageUrl = images[imageNumber]
       
       cases.push({ 
@@ -128,10 +129,10 @@ function App() {
       })
     }
     
-    // Ligne 4: Cases 40-43 (de droite à gauche, ligne courbe tout en bas)
-    for (let i = 0; i < 4; i++) {
-      const caseIndex = 39 + i
-      const progress = i / 3 // 0 à 1
+    // Ligne 4: Cases 36-44 (de droite à gauche, ligne courbe tout en bas)
+    for (let i = 0; i < 9; i++) {
+      const caseIndex = 35 + i
+      const progress = i / 8 // 0 à 1
       const x = 900 - progress * 800 // De x=900 à x=100 (droite à gauche)
       const curveHeight = Math.sin(progress * Math.PI) * 40 // Courbe moins prononcée
       const y = 420 + curveHeight
@@ -142,14 +143,20 @@ function App() {
       ) * (180 / Math.PI)
       
       const color = colors[caseIndex % colors.length]
-      const imageNumber = (caseIndex % 27) + 1
+      const imageNumber = caseIndex
       const imageUrl = images[imageNumber]
       
+      
+      // Case 44 est plus grande
+      const caseWidth = caseIndex === 43 ? baseSize * 2.5 : baseSize
+      const caseHeight = caseIndex === 43 ? baseSize * 2.2 : baseSize * 0.8
+      
+      console.log(`Case ${caseIndex + 1}: x=${x}, y=${y}, rotation=${rotation}, width=${caseWidth}, height=${caseHeight}`)
       cases.push({ 
         x, 
         y, 
-        width: baseSize, 
-        height: baseSize * 0.8, 
+        width: caseWidth, 
+        height: caseHeight, 
         rotation, 
         color, 
         imageUrl 
@@ -176,18 +183,11 @@ function App() {
             y="0"
             width="1000"
             height="650"
-            fill="#2c3e50"
+            fill="#78cceeff"
             rx="20"
           />
           
-          {/* Décoration - cercle central */}
-          <circle
-            cx="500"
-            cy="350"
-            r="120"
-            fill="#34495e"
-            opacity="0.5"
-          />
+
           <text
             x="500"
             y="340"
@@ -228,10 +228,10 @@ function App() {
                   {caseData.imageUrl && (
                     <image
                       href={caseData.imageUrl}
-                      x="-35"
-                      y="-35"
-                      width="70"
-                      height="70"
+                      x={-caseData.width / 2}
+                      y={-caseData.height / 2}
+                      width={caseData.width}
+                      height={caseData.height}
                       transform={`rotate(${-caseData.rotation})`}
                       preserveAspectRatio="xMidYMid meet"
                       onClick={() => setSelectedCase({ caseNumber, data: caseData })}
@@ -241,7 +241,7 @@ function App() {
                   )}
                   <text
                     x="0"
-                    y="45"
+                    y="30"
                     className="case-number"
                     transform={`rotate(${-caseData.rotation})`}
                   >
@@ -255,10 +255,21 @@ function App() {
           {/* Image de transition entre case 11 et 12 */}
           <image
             href={transitionA}
-            x="920"
-            y="110"
-            width="80"
-            height="80"
+            x="830"
+            y="125"
+            width="180"
+            height="180"
+            preserveAspectRatio="xMidYMid meet"
+            className="transition-image"
+          />
+          
+          {/* Image de transition entre case 39 et 40 */}
+          <image
+            href={transitionB}
+            x="830"
+            y="325"
+            width="180"
+            height="180"
             preserveAspectRatio="xMidYMid meet"
             className="transition-image"
           />
