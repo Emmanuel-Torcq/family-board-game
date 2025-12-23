@@ -43,8 +43,6 @@ function App() {
   // Créer trois lignes courbes
   const generateSpiralPath = (): CaseData[] => {
     const cases: CaseData[] = []
-    const centerX = 500
-    const centerY = 350
     const baseSize = 50
     
     // Ligne 1: Cases 1-11 (de gauche à droite, ligne courbe en haut)
